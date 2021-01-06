@@ -30,19 +30,18 @@ const handleSafeBooru = (client, booruParams) => {
 const handleNotSafeBooru = (client, booruParams) => {
     try {
         if (booruParams.length <= 4) {
-        booru.posts({tags:`rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
-            const index = Math.floor(Math.random() * posts.length);
+        booru.posts({ tags: `rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
+            const index = Math.floor(Math.random() * posts.length)
             const post = posts[index];
             const imgPost = post.large_file_url;
-            console.log(imgPost);
             client.channel.send(imgPost);
-          }).catch(err => {console.log(err);})
+            }).catch(err => {console.log(err);})
         } else {
             client.channel.send('Tags can only go up to 2 tags!');
         }
     } catch (e) {
         console.log(e);
-        handleSafeBooru(client, booruParams);
+        handleNotSafeBooru(client, booruParams);
     }
 }
 
