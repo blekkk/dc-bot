@@ -7,33 +7,29 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-const handleSafeBooru = async (client, booruParams) => {
-    try {
-        if (booruParams.length <= 4) {
-            var results = await booru.posts({tags: `rating:safe ${booruParams[2]} ${booruParams[3]}`, limit:50})
-            var index = Math.floor(Math.random * results.length);
-            var result = results[index];
-            client.channel.send(result.file_url);
-        } else {
-            client.channel.send('Tags can only go up to 2 tags!');
-        }  
-    } catch (e) {
-        console.log(e);
+const handleSafeBooru = (client, booruParams) => {
+    if (booruParams.length <= 4) {
+        booru.posts({tags:`rating:safe ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
+            var index = Math.floor(Math.random() * posts.length)
+            var post = posts[index]
+            var imgPost = post.file_url
+            client.channel.send(imgPost);
+          }).catch(err => {console.log(err);})
+    } else {
+        client.channel.send('Tags can only go up to 2 tags!');
     }
 }
 
-const handleNotSafeBooru = async (client, booruParams) => {
-    try {
-        if (booruParams.length <= 4) {
-            var results = await booru.posts({tags: `rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50})
-            var index = Math.floor(Math.random * results.length);
-            var result = results[index];
-            client.channel.send(result.file_url);
-        } else {
-            client.channel.send('Tags can only go up to 2 tags!');
-        }  
-    } catch (e) {
-        console.log(e);
+const handleNotSafeBooru = (client, booruParams) => {
+    if (booruParams.length <= 4) {
+        booru.posts({tags:`rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
+            var index = Math.floor(Math.random() * posts.length)
+            var post = posts[index]
+            var imgPost = post.file_url
+            client.channel.send(imgPost);
+          }).catch(err => {console.log(err);})
+    } else {
+        client.channel.send('Tags can only go up to 2 tags!');
     }
 }
 
