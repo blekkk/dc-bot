@@ -91,4 +91,4 @@ client.on('message', msg => {
     }
 });
 
-client.login(process.env.TOKEN.toString()).catch((e) => console.log(e));
+client.login(`${process.env.TOKEN}`).catch((e) => console.log(e));
