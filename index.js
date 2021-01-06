@@ -8,40 +8,28 @@ client.on('ready', () => {
 });
 
 const handleSafeBooru = (client, booruParams) => {
-    try {
-        if (booruParams.length <= 4) {
+    if (booruParams.length <= 4) {
         booru.posts({tags:`rating:safe ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
-            const index = Math.floor(Math.random() * posts.length);
-            const post = posts[index];
-            const imgPost = post.large_file_url;
-            console.log(imgPost);
+            var index = Math.floor(Math.random() * posts.length)
+            var post = posts[index]
+            var imgPost = post.large_file_url;
             client.channel.send(imgPost);
           }).catch(err => {console.log(err);})
-        } else {
-            client.channel.send('Tags can only go up to 2 tags!');
-        }
-    } catch (e) {
-        console.log(e);
-        handleSafeBooru(client, booruParams);
+    } else {
+        client.channel.send('Tags can only go up to 2 tags!');
     }
-    
 }
 
 const handleNotSafeBooru = (client, booruParams) => {
-    try {
-        if (booruParams.length <= 4) {
-        booru.posts({ tags: `rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
-            const index = Math.floor(Math.random() * posts.length)
-            const post = posts[index];
-            const imgPost = post.large_file_url;
+    if (booruParams.length <= 4) {
+        booru.posts({tags:`rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
+            var index = Math.floor(Math.random() * posts.length)
+            var post = posts[index]
+            var imgPost = post.large_file_url;
             client.channel.send(imgPost);
-            }).catch(err => {console.log(err);})
-        } else {
-            client.channel.send('Tags can only go up to 2 tags!');
-        }
-    } catch (e) {
-        console.log(e);
-        handleNotSafeBooru(client, booruParams);
+          }).catch(err => {console.log(err);})
+    } else {
+        client.channel.send('Tags can only go up to 2 tags!');
     }
 }
 
