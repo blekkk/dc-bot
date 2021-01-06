@@ -8,29 +8,39 @@ client.on('ready', () => {
 });
 
 const handleSafeBooru = (client, booruParams) => {
-    if (booruParams.length <= 4) {
+    try {
+        if (booruParams.length <= 4) {
         booru.posts({tags:`rating:safe ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
             var imgPost = post.large_file_url;
             client.channel.send(imgPost);
           }).catch(err => {console.log(err);})
-    } else {
-        client.channel.send('Tags can only go up to 2 tags!');
+        } else {
+            client.channel.send('Tags can only go up to 2 tags!');
+        }
+    } catch (e) {
+        console.log(e);
+        handleSafeBooru(client, booruParams);
     }
+    
 }
 
 const handleNotSafeBooru = (client, booruParams) => {
-    if (booruParams.length <= 4) {
+    try {
+        if (booruParams.length <= 4) {
         booru.posts({tags:`rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
             var imgPost = post.large_file_url;
             client.channel.send(imgPost);
           }).catch(err => {console.log(err);})
-    } else {
-        client.channel.send('Tags can only go up to 2 tags!');
-    }
+        } else {
+            client.channel.send('Tags can only go up to 2 tags!');
+        }
+    } catch (e) {
+        console.log(e);
+        handleSafeBooru(client, booruParams);
 }
 
 const handleHelp = (client) => {
