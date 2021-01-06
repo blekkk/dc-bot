@@ -12,7 +12,7 @@ const handleSafeBooru = (client, booruParams) => {
         booru.posts({tags:`rating:safe ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
-            var imgPost = post.file_url
+            var imgPost = post.large_file_url;
             client.channel.send(imgPost);
           }).catch(err => {console.log(err);})
     } else {
@@ -25,7 +25,7 @@ const handleNotSafeBooru = (client, booruParams) => {
         booru.posts({tags:`rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
-            var imgPost = post.file_url
+            var imgPost = post.large_file_url;
             client.channel.send(imgPost);
           }).catch(err => {console.log(err);})
     } else {
