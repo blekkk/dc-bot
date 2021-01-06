@@ -8,6 +8,9 @@ client.on('ready', () => {
 });
 
 const handleSafeBooru = (client, booruParams) => {
+    if (booruParams[3] === undefined) {
+        booruParams[3] = ' ';
+    }
     if (booruParams.length <= 4) {
         booru.posts({tags:`rating:safe ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
             var index = Math.floor(Math.random() * posts.length)
@@ -21,6 +24,9 @@ const handleSafeBooru = (client, booruParams) => {
 }
 
 const handleNotSafeBooru = (client, booruParams) => {
+    if (booruParams[3] === undefined) {
+        booruParams[3] = ' ';
+    }
     if (booruParams.length <= 4) {
         booru.posts({tags:`rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
             var index = Math.floor(Math.random() * posts.length)
