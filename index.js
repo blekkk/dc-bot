@@ -17,7 +17,7 @@ const handleSafeBooru = (client, booruParams) => {
             var post = posts[index]
             var imgPost = post.large_file_url;
             if (imgPost === undefined) {
-                client.channel.send("that doesn't exist!\n\ntry using \`<CHARACTER_NAME>_(SERIES_NAME)\` as a tag");
+                client.channel.send("That doesn't exist!\n\ntry using \`<CHARACTER_NAME>_(SERIES_NAME)\` as a tag");
             } else {
                 client.channel.send(imgPost);
             }
@@ -37,7 +37,7 @@ const handleNotSafeBooru = (client, booruParams) => {
             var post = posts[index]
             var imgPost = post.large_file_url;
             if (imgPost === undefined) {
-                client.channel.send("that doesn't exist!\n\ntry using \`<CHARACTER_NAME>_(SERIES_NAME)\` as a tag");
+                client.channel.send("That doesn't exist!\n\ntry using \`<CHARACTER_NAME>_(SERIES_NAME)\` as a tag");
             } else {
                 client.channel.send(imgPost);
             }
