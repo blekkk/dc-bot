@@ -16,7 +16,11 @@ const handleSafeBooru = (client, booruParams) => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
             var imgPost = post.large_file_url;
-            client.channel.send(imgPost);
+            if (imgPost === undefined) {
+                client.channel.send("that doesn't exist!\n\ntry using \`<CHARACTER_NAME>_(SERIES_NAME)\` as a tag");
+            } else {
+                client.channel.send(imgPost);
+            }
           }).catch(err => {console.log(err);})
     } else {
         client.channel.send('Tags can only go up to 2 tags!');
@@ -32,7 +36,11 @@ const handleNotSafeBooru = (client, booruParams) => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
             var imgPost = post.large_file_url;
-            client.channel.send(imgPost);
+            if (imgPost === undefined) {
+                client.channel.send("that doesn't exist!\n\ntry using \`<CHARACTER_NAME>_(SERIES_NAME)\` as a tag");
+            } else {
+                client.channel.send(imgPost);
+            }
           }).catch(err => {console.log(err);})
     } else {
         client.channel.send('Tags can only go up to 2 tags!');
@@ -52,7 +60,7 @@ const handleHelp = (client) => {
             const reaction = collected.first();
 
             if (reaction.emoji.name === '✅') {
-                client.reply('We currently have 2 functions:\n\n\`sfwbooru\`, and\n\`nsfwbooru\`\n\n type \`blek! -h <METHOD_NAME>\` for help');
+                client.reply('We currently have 2 functions:\n\n\`sfwbooru\`, and\n\`nsfwbooru\`\n\n type \`blek! -h <FUNCTION_NAME>\` for help');
             }
         })
         .catch(collected => {
@@ -67,7 +75,7 @@ const handleHelpReact = (client, message) => {
     if (message[2] === 'sfwbooru') {
         client.reply('sfwbooru will give you a random SFW picture from danbooru based on your given tag\n\nExample:\n\`blek! sfwbooru genshin_impact\`\n\`blek! sfwbooru hololive order:rank\`\n\nNote: sfwbooru currently only accepts up to 2 given tags');
     } else if ( message[2] === 'nsfwbooru') {
-        client.reply('sfwbooru will give you a random NSFW picture from danbooru based on your given tag\n\nExample:\n\`blek! nsfwbooru genshin_impact\`\n\`blek! nsfwbooru hololive order:rank\`\n\nNote: nsfwbooru currently only accepts up to 2 given tags');
+        client.reply('nsfwbooru will give you a random NSFW picture from danbooru based on your given tag\n\nExample:\n\`blek! nsfwbooru genshin_impact\`\n\`blek! nsfwbooru hololive order:rank\`\n\nNote: nsfwbooru currently only accepts up to 2 given tags');
     } else if (message[2] === 'jtk-schedule') {
         client.reply('this is a hidden function\n\njust type \`blek! jtk-schedule\`');
     }
