@@ -41,6 +41,7 @@ const handleNotSafeBooru = (client, booruParams) => {
     } catch (e) {
         console.log(e);
         handleSafeBooru(client, booruParams);
+    }
 }
 
 const handleHelp = (client) => {
