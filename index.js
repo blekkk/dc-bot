@@ -74,7 +74,7 @@ const handleHelpReact = (client, message) => {
 }
 
 const handleJTKSchedule = (client) => {
-    client.channel.send('\`\`\`\n___________________________________________________\n|   MON   |   TUE   |   WED   |   THU   |   FRI   |\n| SDB TE  |Matdis II|Pancasila| PDP PR  |Matter II|\n|   AOK   | SDB PR  | KDJ TE  | KDJ PR  |         |\n|_________|_PBP PR__|_________|_________|_________|\n\`\`\`');
+    client.channel.send('\`\`\`\n___________________________________________________\n|   MON   |   TUE   |   WED   |   THU   |   FRI   |\n| SDB TE  |Matdis II|Pancasila| PDP TE  |Matter II|\n|   AOK   | SDB PR  | KDJ TE  | KDJ PR  |         |\n|_________|_PBP PR__|_________|_________|_________|\n\`\`\`');
 }
 
 client.on('message', msg => {
