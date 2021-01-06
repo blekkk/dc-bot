@@ -44,8 +44,6 @@ const handleHelp = (client) => {
         r.react('✅');
 
         const filter = (reaction, user) => {
-        console.log(user.id);
-        console.log(client.author.id);
         return ['✅'].includes(reaction.emoji.name) && user.id === client.author.id;
         };
 
@@ -54,7 +52,7 @@ const handleHelp = (client) => {
             const reaction = collected.first();
 
             if (reaction.emoji.name === '✅') {
-                client.reply('We currently have 2 methods:\n\n\`sfwbooru\`, and\n\`nsfwbooru\`\n\n type \`blek! -h <METHOD_NAME>\` for help');
+                client.reply('We currently have 2 functions:\n\n\`sfwbooru\`, and\n\`nsfwbooru\`\n\n type \`blek! -h <METHOD_NAME>\` for help');
             }
         })
         .catch(collected => {
@@ -70,7 +68,13 @@ const handleHelpReact = (client, message) => {
         client.reply('sfwbooru will give you a random SFW picture from danbooru based on your given tag\n\nExample:\n\`blek! sfwbooru genshin_impact\`\n\`blek! sfwbooru hololive order:rank\`\n\nNote: sfwbooru currently only accepts up to 2 given tags');
     } else if ( message[2] === 'nsfwbooru') {
         client.reply('sfwbooru will give you a random NSFW picture from danbooru based on your given tag\n\nExample:\n\`blek! nsfwbooru genshin_impact\`\n\`blek! nsfwbooru hololive order:rank\`\n\nNote: nsfwbooru currently only accepts up to 2 given tags');
+    } else if (message[2] === 'jtk-schedule') {
+        client.reply('this is a hidden function\n\njust type \`blek! jtk-schedule\`');
     }
+}
+
+const handleJTKSchedule = (client) => {
+    client.channel.send('\`\`\`\n___________________________________________________\n|   MON   |   TUE   |   WED   |   THU   |   FRI   |\n| SDB TE  |Matdis II|Pancasila| PDP PR  |Matter II|\n|   AOK   | SDB PR  | KDJ TE  | KDJ PR  |         |\n|_________|_PBP PR__|_________|_________|_________|\n\`\`\`');
 }
 
 client.on('message', msg => {
@@ -83,6 +87,9 @@ client.on('message', msg => {
         }
         if (cleanMsg[1] === 'nsfwbooru') {
             handleNotSafeBooru(msg, cleanMsg);
+        }
+        if (cleanMsg[1] === 'jtk-schedule') {
+            handleJTKSchedule(msg);
         }
         if (cleanMsg[1] === '-h') {
             handleHelpReact(msg, cleanMsg);
