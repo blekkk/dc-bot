@@ -11,9 +11,10 @@ const handleSafeBooru = (client, booruParams) => {
     try {
         if (booruParams.length <= 4) {
         booru.posts({tags:`rating:safe ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
-            var index = Math.floor(Math.random() * posts.length)
-            var post = posts[index]
-            var imgPost = post.large_file_url;
+            const index = Math.floor(Math.random() * posts.length);
+            const post = posts[index];
+            const imgPost = post.large_file_url;
+            console.log(imgPost);
             client.channel.send(imgPost);
           }).catch(err => {console.log(err);})
         } else {
@@ -30,9 +31,10 @@ const handleNotSafeBooru = (client, booruParams) => {
     try {
         if (booruParams.length <= 4) {
         booru.posts({tags:`rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
-            var index = Math.floor(Math.random() * posts.length)
-            var post = posts[index]
-            var imgPost = post.large_file_url;
+            const index = Math.floor(Math.random() * posts.length);
+            const post = posts[index];
+            const imgPost = post.large_file_url;
+            console.log(imgPost);
             client.channel.send(imgPost);
           }).catch(err => {console.log(err);})
         } else {
