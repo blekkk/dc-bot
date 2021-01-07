@@ -9,7 +9,7 @@ client.on('ready', () => {
 
 const handleSafeBooru = (client, booruParams) => {
 
-    if (booruParams.split(' ').length() < 3) {
+    if (booruParams.split(' ').length < 3) {
         booru.posts({tags:`rating:safe ${booruParams}`, limit:50}).then(posts => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
@@ -27,7 +27,7 @@ const handleSafeBooru = (client, booruParams) => {
 
 const handleNotSafeBooru = (client, booruParams) => {
 
-    if (booruParams.split(' ').length() < 3) {
+    if (booruParams.split(' ').length < 3) {
         booru.posts({tags:`rating:explicit ${booruParams}`, limit:50}).then(posts => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
@@ -84,7 +84,7 @@ const handleJTKSchedule = (client) => {
 client.on('message', msg => {
 
     var cleanMsg = msg.content.toLowerCase().split(' ');
-    for (let i = 2; i < cleanMsg.length(); i++) {
+    for (let i = 2; i < cleanMsg.length; i++) {
         var booruParams = [];
         booruParams.push(cleanMsg[i]);
     }
