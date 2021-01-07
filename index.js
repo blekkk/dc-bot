@@ -88,7 +88,7 @@ client.on('message', msg => {
     for (let i = 2; i < cleanMsg.length; i++) {
         booruParams.push(cleanMsg[i]);
     }
-    booruParams.join(' ');
+    booruParams = booruParams.join(' ');
 
     if (cleanMsg[0] === 'blek!') {
         if (cleanMsg[1] === 'sfwbooru') {
