@@ -8,14 +8,12 @@ client.on('ready', () => {
 });
 
 const handleSafeBooru = (client, booruParams) => {
-    if (booruParams[3] === undefined) {
-        booruParams[3] = ' ';
-    }
-    if (booruParams.length <= 4) {
-        booru.posts({tags:`rating:safe ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
+
+    if (booruParams.split(' ').length() < 3) {
+        booru.posts({tags:`rating:safe ${booruParams}`, limit:50}).then(posts => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
-            if (posts === undefined) {
+            if (posts.length === 0) {
                 client.channel.send("That doesn't exist!\n\ntry using \`<CHARACTER_NAME>_(SERIES_NAME)\` as a tag");
             } else {
                 var imgPost = post.large_file_url;
@@ -28,14 +26,12 @@ const handleSafeBooru = (client, booruParams) => {
 }
 
 const handleNotSafeBooru = (client, booruParams) => {
-    if (booruParams[3] === undefined) {
-        booruParams[3] = ' ';
-    }
-    if (booruParams.length <= 4) {
-        booru.posts({tags:`rating:explicit ${booruParams[2]} ${booruParams[3]}`, limit:50}).then(posts => {
+
+    if (booruParams.split(' ').length() < 3) {
+        booru.posts({tags:`rating:explicit ${booruParams}`, limit:50}).then(posts => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
-            if (posts === undefined) {
+            if (posts.length === 0) {
                 client.channel.send("That doesn't exist!\n\ntry using \`<CHARACTER_NAME>_(SERIES_NAME)\` as a tag");
             } else {
                 var imgPost = post.large_file_url;
@@ -87,14 +83,19 @@ const handleJTKSchedule = (client) => {
 
 client.on('message', msg => {
 
-    var cleanMsg = msg.content.split(' ');
+    var cleanMsg = msg.content.toLowerCase().split(' ');
+    for (let i = 2; i < cleanMsg.length(); i++) {
+        var booruParams = [];
+        booruParams.push(cleanMsg[i]);
+    }
+    booruParams.join(' ');
 
     if (cleanMsg[0] === 'blek!') {
         if (cleanMsg[1] === 'sfwbooru') {
-            handleSafeBooru(msg, cleanMsg);
+            handleSafeBooru(msg, booruParams);
         }
         if (cleanMsg[1] === 'nsfwbooru') {
-            handleNotSafeBooru(msg, cleanMsg);
+            handleNotSafeBooru(msg, booruParams);
         }
         if (cleanMsg[1] === 'jtk-schedule') {
             handleJTKSchedule(msg);
