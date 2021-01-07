@@ -84,8 +84,8 @@ const handleJTKSchedule = (client) => {
 client.on('message', msg => {
 
     var cleanMsg = msg.content.toLowerCase().split(' ');
+    var booruParams = [];
     for (let i = 2; i < cleanMsg.length; i++) {
-        var booruParams = [];
         booruParams.push(cleanMsg[i]);
     }
     booruParams.join(' ');
