@@ -14,7 +14,7 @@ const handleSafeBooru = (client, booruParams) => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
             if (posts.length === 0) {
-                client.channel.send("That doesn't exist!\n\ntry using \`<indicator_NAME>_(SERIES_NAME)\` as a tag");
+                client.channel.send("That doesn't exist!\n\ntry using \`<CHARACTER_NAME>_(SERIES_NAME)\` as a tag");
             } else {
                 var imgPost = post.large_file_url;
                 client.channel.send(imgPost);
@@ -32,7 +32,7 @@ const handleNotSafeBooru = (client, booruParams) => {
             var index = Math.floor(Math.random() * posts.length)
             var post = posts[index]
             if (posts.length === 0) {
-                client.channel.send("That doesn't exist!\n\ntry using \`<indicator_NAME>_(SERIES_NAME)\` as a tag");
+                client.channel.send("That doesn't exist!\n\ntry using \`<CHARACTER_NAME>_(SERIES_NAME)\` as a tag");
             } else {
                 var imgPost = post.large_file_url;
                 client.channel.send(imgPost);
@@ -60,7 +60,7 @@ const handleHelp = (client) => {
             }
         })
         .catch(collected => {
-            console.log("The person doean't respond");
+            console.log("The person doesn't respond");
         });
     });
 }
@@ -178,7 +178,7 @@ const handleEmojify = (client, message) => {
                 emojiMessage.push(':regional_indicator_y:');
                 break;
             case 'z':
-                emojiMessage.push(':regional_indicator_az:');
+                emojiMessage.push(':regional_indicator_z:');
                 break;
             case ' ':
                 emojiMessage.push(' ');
