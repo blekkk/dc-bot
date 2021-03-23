@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const Danbooru = require('danbooru');
 const client = new Discord.Client();
 const booru = new Danbooru();
+const axios = require("axios");
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -43,6 +44,23 @@ const handleNotSafeBooru = (client, booruParams) => {
     }
 }
 
+const handleNhentaiInfo = async (client, params) => {
+    try {
+        const result = await axios.get(`https://nhentai.net/api/gallery/${params}`);
+        if (result.status != 404) {
+            let tags = []
+            result.data.tags.forEach((tagEach) => {
+                tags.push(` ${tagEach.name}`);
+            })
+            client.channel.send(
+                `**id**: ${result.data.id}\n**title**: ${result.data.title.english}\n**tags**:${tags}\n**pages**: ${result.data.num_pages}\n**url**: https://nhentai.net/g/${result.data.id}/`
+            );
+        }
+    } catch (e) {
+        client.channel.send("Doujin not found");
+    }
+}
+
 const handleHelp = (client) => {
     client.reply('do you need any help?').then( (r) => {
         r.react('✅');
@@ -56,7 +74,7 @@ const handleHelp = (client) => {
             const reaction = collected.first();
 
             if (reaction.emoji.name === '✅') {
-                client.reply('we currently have 3 functions:\n\n\`sfwbooru\`, \n\`nsfwbooru\`\n, and \`emojify\`\n\n type \`blek! -h <FUNCTION_NAME>\` for help');
+                client.reply('we currently have 4 functions:\n\n\`sfwbooru\`, \n\`nsfwbooru\`,\n\`nhentai-info\`,\nand \`emojify\`\n\n type \`blek! -h <FUNCTION_NAME>\` for help');
             }
         })
         .catch(collected => {
@@ -197,6 +215,8 @@ const handleHelpReact = (client, message) => {
         client.reply('this is a hidden function\n\njust type \`blek! jtk-schedule\`');
     } else if (message[2] === 'emojify') {
         client.reply('emojify your messages!\n\nJust type \`blek emojify <YOUR_MESSAGES>\`');
+    } else if (message[2] === 'nhentai-info') {
+        client.reply('nhentai-info sends you information about the doujin with the given id\n\nExample: blek! nhentai-info 177013\n\nNote: nhentai-info only accepts **one** id');
     }
 }
 
@@ -228,6 +248,9 @@ client.on('message', msg => {
         }
         if (cleanMsg[1] === 'emojify') {
             handleEmojify(msg,booruParams);
+        }
+        if (cleanMsg[1] === 'nhentai-info') {
+            handleNhentaiInfo(msg,booruParams);
         }
         if (cleanMsg.length === 1) {
             handleHelp(msg);
