@@ -46,6 +46,10 @@ const handleNotSafeBooru = (client, booruParams) => {
 
 const handleNhentaiInfo = async (client, params) => {
     try {
+        if (params.length === 0) {
+            client.channel.send("Please enter the doujin id");
+            return;
+        }
         const result = await axios.get(`https://nhentai.net/api/gallery/${params}`);
         if (result.status != 404) {
             let listTags = []
