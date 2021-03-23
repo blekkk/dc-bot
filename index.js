@@ -48,12 +48,28 @@ const handleNhentaiInfo = async (client, params) => {
     try {
         const result = await axios.get(`https://nhentai.net/api/gallery/${params}`);
         if (result.status != 404) {
-            let tags = []
+            let listTags = []
+            let listArtist = []
+            let listParody = []
+            let listCharacter = []
             result.data.tags.forEach((tagEach) => {
-                tags.push(` ${tagEach.name}`);
+                switch (tagEach.type) {
+                    case 'tag':
+                        listTags.push(` ${tagEach.name}`);
+                        break;
+                    case 'artist':
+                        listArtist.push(` ${tagEach.name}`);
+                        break;
+                    case 'parody':
+                        listParody.push(` ${tagEach.name}`);
+                        break;
+                    case 'character':
+                        listCharacter.push(` ${tagEach.name}`);
+                        break;
+                }
             })
             client.channel.send(
-                `**id**: ${result.data.id}\n**title**: ${result.data.title.english}\n**tags**:${tags}\n**pages**: ${result.data.num_pages}\n**url**: https://nhentai.net/g/${result.data.id}/`
+                `**id**: ${result.data.id}\n\n**title**: ${result.data.title.english}\n\n**Artist**:${listArtist}\n\n**Parody**:${listParody}\n\n**Character**:${listCharacter}\n\n**tags**:${listTags}\n\n**pages**: ${result.data.num_pages}\n\n**url**: https://nhentai.net/g/${result.data.id}/`
             );
         }
     } catch (e) {
