@@ -12,7 +12,10 @@ client.on('ready', () => {
 const databaseString = process.env.DATABASE_URL;
 
 const pool = new Pool({
-    databaseString
+    databaseString,
+    ssl: {
+        rejectUnauthorized: false
+    }
   });
 
 const handleSafeBooru = (client, booruParams) => {
