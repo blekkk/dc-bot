@@ -288,7 +288,7 @@ const handleHelpReact = (client, message) => {
     } else if (message[2] === 'nhentai-info') {
         client.reply('nhentai-info sends you information about the doujin with the given id\n\nExample: blek! nhentai-info 177013\n\nNote: nhentai-info only accepts **one** id');
     } else if (message[2] === 'jadwal') {
-        client.reply('jadwal is a hidden function that sends you information about today\'s coolyeah schedule or a chosen day (mon-fri)\n\nExample:\n\`blek! jadwal-kuliah-jtk\` (for today\'s schedule)\n\`blek! jadwal-kuliah-jtk mon (for schedule on monday)\`');
+        client.reply('jadwal is a hidden function that sends you information about today\'s coolyeah schedule or a chosen day (mon-fri)\n\nExample:\n\`blek! jadwal-kuliah-jtk\` (for today\'s schedule)\n\`blek! jadwal-kuliah-jtk mon\` (for schedule on monday)');
     }
 }
 
