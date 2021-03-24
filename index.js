@@ -9,10 +9,10 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-const databaseString = process.env.DATABASE_URL;
+const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
-    databaseString,
+    connectionString,
     ssl: {
         rejectUnauthorized: false
     }
