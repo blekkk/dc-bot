@@ -3,10 +3,17 @@ const Danbooru = require('danbooru');
 const client = new Discord.Client();
 const booru = new Danbooru();
 const axios = require("axios");
+const Pool = require('pg').Pool
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
+
+const databaseString = process.env.DATABASE_URL;
+
+const pool = new Pool({
+    databaseString
+  });
 
 const handleSafeBooru = (client, booruParams) => {
 
@@ -43,6 +50,51 @@ const handleNotSafeBooru = (client, booruParams) => {
         client.channel.send('Tags can only go up to 2 tags!');
     }
 }
+
+const handleJadwalKuliah = (client, params) => {
+    let dayToday = "null";
+    let dayOfWeek = ['mon', 'tue', 'wed', 'thu', 'fri'];
+    let finalText = "";
+    if (params.split(" ").length > 1) {
+      client.channel.send("Please input just **one** day of the week!");
+      return;
+    }
+    if (params.length === 0) {
+      let date = new Date();
+      dayToday = date.getDay();
+    }
+    if (params.match(/^mon|tue|wed|thu|fri$/g) && dayToday === "null") {
+      params = params.replace(/"/g, "'");
+      console.log(dayToday);
+      finalText = finalText.concat(`Jadwal kuliah hari **${params}**:\n\n`);
+      pool.query(`SELECT nama_kuliah,hari_kuliah,dosen,waktu_kuliah FROM public."Jadwal_Kuliah" WHERE hari_kuliah = '${params}' ORDER BY id ASC `, (err, res) => {
+        if (err) throw err;
+        for (let row of res.rows) {
+          console.log(finalText);
+          console.log(row);
+          finalText = finalText.concat(`**Nama MK**: ${row.nama_kuliah}\n**Dosen**: ${row.dosen}\n**Waktu Kuliah**: ${row.waktu_kuliah}\n\n`);
+        }
+        client.channel.send(finalText);
+      })
+    } else if (dayToday !== "null" && params.length === 0) {
+      dayToday = dayOfWeek[dayToday - 1];
+      dayToday = dayToday.replace(/"/g, "'");
+      console.log(dayToday);
+      finalText = finalText.concat(`Jadwal kuliah hari ini(**${dayToday}**):\n\n`);
+      pool.query(`SELECT nama_kuliah,hari_kuliah,dosen,waktu_kuliah FROM public."Jadwal_Kuliah" WHERE hari_kuliah = '${dayToday}' ORDER BY id ASC `, (err, res) => {
+        if (err) throw err;
+        for (let row of res.rows) {
+          console.log(finalText);
+          console.log(row);
+          finalText = finalText.concat(`**Nama MK**: ${row.nama_kuliah}\n**Dosen**: ${row.dosen}\n**Waktu Kuliah**: ${row.waktu_kuliah}\n\n`);
+        }
+        client.channel.send(finalText);
+      })
+    } else {
+      client.channel.send("Please input the correct day (mon - fri)");
+      return;
+    }
+  }
 
 const handleNhentaiInfo = async (client, params) => {
     try {
@@ -231,17 +283,13 @@ const handleHelpReact = (client, message) => {
         client.reply('sfwbooru will give you a random SFW picture from danbooru based on your given tag\n\nExample:\n\`blek! sfwbooru genshin_impact\`\n\`blek! sfwbooru hololive order:rank\`\n\nNote: sfwbooru currently only accepts up to 2 given tags');
     } else if ( message[2] === 'nsfwbooru') {
         client.reply('nsfwbooru will give you a random NSFW picture from danbooru based on your given tag\n\nExample:\n\`blek! nsfwbooru genshin_impact\`\n\`blek! nsfwbooru hololive order:rank\`\n\nNote: nsfwbooru currently only accepts up to 2 given tags');
-    } else if (message[2] === 'jtk-schedule') {
-        client.reply('this is a hidden function\n\njust type \`blek! jtk-schedule\`');
     } else if (message[2] === 'emojify') {
         client.reply('emojify your messages!\n\nJust type \`blek emojify <YOUR_MESSAGES>\`');
     } else if (message[2] === 'nhentai-info') {
         client.reply('nhentai-info sends you information about the doujin with the given id\n\nExample: blek! nhentai-info 177013\n\nNote: nhentai-info only accepts **one** id');
+    } else if (message[2] === 'jadwal') {
+        client.reply('jadwal is a hidden function that sends you information about today\'s coolyeah schedule or a chosen day (mon-fri)\n\nExample:\n\`blek! jadwal-kuliah-jtk\` (for today\'s schedule)\n\`blek! jadwal-kuliah-jtk mon (for schedule on monday)\`');
     }
-}
-
-const handleJTKSchedule = (client) => {
-    client.channel.send('\`\`\`\n___________________________________________________\n|   MON   |   TUE   |   WED   |   THU   |   FRI   |\n| SDB TE  |Matdis II|Pancasila| PDP PR  |Matter II|\n|   AOK   | SDB PR  | KDJ TE  | KDJ PR  |         |\n|_________|_PBP TE__|_________|_________|_________|\n\`\`\`');
 }
 
 client.on('message', msg => {
@@ -260,8 +308,8 @@ client.on('message', msg => {
         if (cleanMsg[1] === 'nsfwbooru') {
             handleNotSafeBooru(msg, booruParams);
         }
-        if (cleanMsg[1] === 'jtk-schedule') {
-            handleJTKSchedule(msg);
+        if (cleanMsg[1] === 'jadwal') {
+            handleJadwalKuliah(msg, booruParams);
         }
         if (cleanMsg[1] === '-h') {
             handleHelpReact(msg, cleanMsg);
