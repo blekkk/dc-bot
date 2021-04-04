@@ -1,8 +1,5 @@
-//const Discord = require('discord.js');
 const Danbooru = require('danbooru');
-//const client = new Discord.Client();
 const booru = new Danbooru();
-
 
 module.exports = {
     handleSafeBooru: (client, booruParams) => {
