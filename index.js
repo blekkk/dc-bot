@@ -35,13 +35,13 @@ client.on('message', async msg => {
             if (cleanMsg[1] === 'sfwbooru') {
                 handleSafeBooru(msg, booruParams);
             }
-            if (cleanMsg[1] === 'nsfwbooru') {
+            else if (cleanMsg[1] === 'nsfwbooru') {
                 handleNotSafeBooru(msg, booruParams);
             }
-            if (cleanMsg[1] === 'jadwal') {
+            else if (cleanMsg[1] === 'jadwal') {
                 handleJadwalKuliah(msg, booruParams, pool);
             }
-            if (cleanMsg[1] === 'tugas-add') {
+            else if (cleanMsg[1] === 'tugas-add') {
                 let tugasParams = [];
                 for (let i = 2; i < cleanMsg.length; i++) {
                     tugasParams.push(tugasMsg[i]);
@@ -49,22 +49,22 @@ client.on('message', async msg => {
                 tugasParams = tugasParams.join(' ');
                 handleAddTugas(msg, tugasParams, pool);
             }
-            if (cleanMsg[1] === 'tugas-list') {
+            else if (cleanMsg[1] === 'tugas-list') {
                 handleListTugas(msg, booruParams, pool);
             }
-            if (cleanMsg[1] === 'tugas-delete') {
+            else if (cleanMsg[1] === 'tugas-delete') {
                 handleDeleteTugas(msg, booruParams, pool);
             }
-            if (cleanMsg[1] === '-h') {
+            else if (cleanMsg[1] === '-h') {
                 handleHelpReact(msg, cleanMsg);
             }
-            if (cleanMsg[1] === 'emojify') {
+            else if (cleanMsg[1] === 'emojify') {
                 handleEmojify(msg,booruParams);
             }
-            if (cleanMsg[1] === 'nhentai-info') {
+            else if (cleanMsg[1] === 'nhentai-info') {
                 await handleNhentaiInfo(msg,booruParams);
             }
-            if (cleanMsg.length === 1) {
+            else if (cleanMsg.length === 1) {
                 handleHelp(msg);
             } else {
                 msg.channel.send('What do you mean?');
