@@ -94,6 +94,10 @@ module.exports = {
         if (params.length === 0) {
           let date = new Date();
           dayToday = date.getDay();
+          if (dayToday > 5 || dayToday < 1) {
+              client.channel.send('Today is a weekend!');
+              return;
+          }
         }
         if (params.match(/^mon|tue|wed|thu|fri$/g) && dayToday === "null") {
           params = params.replace(/"/g, "'");
