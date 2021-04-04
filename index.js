@@ -12,7 +12,7 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-const connectionString = 'postgres://joxezgvzhckvgg:e85dc67e5f553d458de591e5dbc4d3f3c89748ad1cafce0ce4817fe251bf6eef@ec2-54-167-168-52.compute-1.amazonaws.com:5432/dehto6su2gf952';
+const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
     connectionString,
@@ -75,4 +75,4 @@ client.on('message', async msg => {
     }
 });
 
-client.login(`Nzg5MTcyNTI3NTY5MzA1NjEw.X9uMMA.kyohUZf_cc_hEDVgXqem_zaFrjU`).catch((e) => console.log(e));
+client.login(process.env.TOKEN).catch((e) => console.log(e));
