@@ -5,7 +5,6 @@ const getAnimeMALSearch = async (params) => {
     let apiParams = params.split(' ').join('%20');
     try {
         const result = await axios.get(`https://api.jikan.moe/v3/search/anime?q=${apiParams}&page=1`);
-        console.log(result);
         return result;
     } catch (e) {
         console.log(e);
