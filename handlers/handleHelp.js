@@ -37,7 +37,7 @@ module.exports = {
         } else if (message[2] === 'tugas') {
             client.reply('the hidden tugas family functions, use it to add, list, and delete your tugas. Here\'s how to use it:\n\nAdd your tugas:\n\`blek! tugas-add "<MATA_KULIAH>" "<DETAIL_TUGAS>" "<DEADLINE_TUGAS>"\`\nList your tugas:\n\`blek! tugas-list\`\nDelete your tugas:\n\`blek! tugas-delete <NOMOR_TUGAS_PADA_LIST>\`');
         } else if (message[2] === 'mal-search') {
-            client.reply(`mal-search displays information about the searched anime on MyAnimeList\n\njust type:\n\`blek! mal-search <YOUR_SEARCH_QUERY>\`\n\nnext update: multiple results`);
+            client.reply(`mal-search displays information about the searched anime on MyAnimeList\n\njust type:\n\`blek! mal-search <YOUR_SEARCH_QUERY>\``);
         }
     }
 }
