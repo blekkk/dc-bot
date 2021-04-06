@@ -5,6 +5,7 @@ const {handleNhentaiInfo} = require('./handlers/handleNhentai');
 const {handleEmojify} = require('./handlers/handleEmojify');
 const {handleHelp, handleHelpReact} = require('./handlers//handleHelp');
 const {handleAddTugas, handleListTugas, handleDeleteTugas, handleJadwalKuliah} = require('./handlers/handleKuliahStuff');
+const {malSearch} = require('./handlers/handleMAL');
 
 const client = new Discord.Client();
 
@@ -63,6 +64,9 @@ client.on('message', async msg => {
             }
             else if (cleanMsg[1] === 'nhentai-info') {
                 await handleNhentaiInfo(msg,booruParams);
+            }
+            else if (cleanMsg[1] === 'mal-search') {
+                await malSearch(msg, booruParams);
             }
             else if (cleanMsg.length === 1) {
                 handleHelp(msg);

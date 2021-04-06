@@ -12,7 +12,17 @@ module.exports = {
                 const reaction = collected.first();
     
                 if (reaction.emoji.name === '✅') {
-                    client.reply('we currently have 4 functions:\n\n\`sfwbooru\`, \n\`nsfwbooru\`,\n\`nhentai-info\`,\nand \`emojify\`\n\n type \`blek! -h <FUNCTION_NAME>\` for help');
+                    client.reply(
+                        `we currently have 4 functions:
+                        
+                        \`sfwbooru\`,
+                        \`nsfwbooru\`,
+                        \`nhentai-info\`,
+                        \`mal-search\`,
+                        and \`emojify\`
+                        
+                        type \`blek! -h <FUNCTION_NAME>\` for help`
+                    );
                 }
             })
             .catch(collected => {
@@ -21,6 +31,7 @@ module.exports = {
         });
     },
     
+    //edit to template literals later
     handleHelpReact: (client, message) => {
         if (message[2] === 'sfwbooru') {
             client.reply('sfwbooru will give you a random SFW picture from danbooru based on your given tag\n\nExample:\n\`blek! sfwbooru genshin_impact\`\n\`blek! sfwbooru hololive order:rank\`\n\nNote: sfwbooru currently only accepts up to 2 given tags');
@@ -34,6 +45,15 @@ module.exports = {
             client.reply('jadwal is a hidden function that sends you information about today\'s coolyeah schedule or a chosen day (mon-fri)\n\nExample:\n\`blek! jadwal\` (for today\'s schedule)\n\`blek! jadwal mon\` (for schedule on monday)');
         } else if (message[2] === 'tugas') {
             client.reply('the hidden tugas family functions, use it to add, list, and delete your tugas. Here\'s how to use it:\n\nAdd your tugas:\n\`blek! tugas-add "<MATA_KULIAH>" "<DETAIL_TUGAS>" "<DEADLINE_TUGAS>"\`\nList your tugas:\n\`blek! tugas-list\`\nDelete your tugas:\n\`blek! tugas-delete <NOMOR_TUGAS_PADA_LIST>\`');
+        } else if (message[2] === 'mal-search') {
+            client.reply(
+                `mal-search displays information about the searched anime on MyAnimeList
+                
+                just type:
+                \`blek! mal-search <YOUR_SEARCH_QUERY>\`
+                
+                next update: multiple results`
+            );
         }
     }
 }
