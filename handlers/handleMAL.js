@@ -26,11 +26,11 @@ const Pagination = (r, filter, i, embedMsg) => {
                 .setTitle(embedMsg.data.results[i].title)
                 .setColor([0, 251, 255])
                 .setDescription(
-                    `Type: ${embedMsg.data.results[i].type}
-                Status: ${embedMsg.data.results[i].airing === false ? 'Completed' : 'Airing'}
-                Episodes: ${embedMsg.data.results[i].episodes}
-                Rating: ${embedMsg.data.results[i].score}
-                MAL url: ${embedMsg.data.results[i].url}`
+                `Type: ${embedMsg.data.results[i].type}`
+                + `\nStatus: ${embedMsg.data.results[i].airing === false ? 'Completed' : 'Airing'}`
+                + `\nEpisodes: ${embedMsg.data.results[i].episodes}`
+                + `\nRating: ${embedMsg.data.results[i].score}`
+                + `\nMAL url: ${embedMsg.data.results[i].url}`
                 )
                 .setImage(embedMsg.data.results[i].image_url);
 
@@ -53,11 +53,11 @@ module.exports = {
             .setTitle(embedMsg.data.results[0].title)
             .setColor([0, 251, 255])
             .setDescription(
-                `Type: ${embedMsg.data.results[0].type}
-                Status: ${embedMsg.data.results[0].airing === false ? 'Completed' : 'Airing'}
-                Episodes: ${embedMsg.data.results[0].episodes}
-                Rating: ${embedMsg.data.results[0].score}
-                MAL url: ${embedMsg.data.results[0].url}`
+                `Type: ${embedMsg.data.results[0].type}`
+                + `\nStatus: ${embedMsg.data.results[0].airing === false ? 'Completed' : 'Airing'}`
+                + `\nEpisodes: ${embedMsg.data.results[0].episodes}`
+                + `\nRating: ${embedMsg.data.results[0].score}`
+                + `\nMAL url: ${embedMsg.data.results[0].url}`
             )
             .setImage(embedMsg.data.results[0].image_url);
         client.channel.send(embed).then((r) => {

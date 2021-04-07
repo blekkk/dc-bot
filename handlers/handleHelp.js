@@ -13,7 +13,7 @@ module.exports = {
     
                 if (reaction.emoji.name === '✅') {
                     client.reply(
-                        `we currently have 4 functions:\n\n\`sfwbooru\`,\n\`nsfwbooru\`,\n\`nhentai-info\`,\n\`mal-search\`,\nand \`emojify\`\n\ntype \`blek! -h <FUNCTION_NAME>\` for help`
+                        `we currently have 5 functions:\n\n\`sfwbooru\`,\n\`nsfwbooru\`,\n\`nhentai-info\`,\n\`mal-search\`,\nand \`emojify\`\n\ntype \`blek! -h <FUNCTION_NAME>\` for help`
                     );
                 }
             })
