@@ -18,7 +18,7 @@ const deleteTugasCheck = (client, queryParams, pool) => {
 module.exports = {
     handleAddTugas: (client, params, pool) => {
         let queryArr = [];
-        params.replace(/(?<=")\s+(?=")/g, '').match(/[^\".+\"]+/g).forEach((elem) => {
+        params.replace(/(?<=")\s+(?=")/g, '').match(/[^"]/g).forEach((elem) => {
             queryArr.push(elem.replace(/"/g, "'"))
         });
         if (queryArr.length !== 3) {
