@@ -1,4 +1,3 @@
-require('dotenv').config()
 const Discord = require('discord.js');
 const Pool = require('pg').Pool
 const { handleSafeBooru, handleNotSafeBooru } = require('./handlers/handleBooru');
