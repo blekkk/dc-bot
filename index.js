@@ -1,3 +1,4 @@
+require('dotenv').config();
 const Discord = require('discord.js');
 const Pool = require('pg').Pool
 const { handleSafeBooru, handleNotSafeBooru } = require('./handlers/handleBooru');
@@ -31,54 +32,52 @@ const pushJoinArray = (arrayInput, i = 2) => {
 }
 
 client.on('message', async event => {
-    var cleanMsgLower = event.content.toLowerCase().split(' ');
-    var cleanMsg = event.content.split(' ');
-    var cleanMsgLowerParams = pushJoinArray(cleanMsgLower);
+    let cleanMsgLower = event.content.toLowerCase().split(' ');
+    let cleanMsg = event.content.split(' ');
+    let cleanMsgLowerParams = pushJoinArray(cleanMsgLower);
 
-    try {
-        if (cleanMsgLower[0] === 'blek!') {
-            if (cleanMsgLower[1] === 'sfwbooru') {
+    if (cleanMsgLower[0] === 'blek!') {
+        switch (cleanMsgLower[1]) {
+            case 'sfwbooru':
                 handleSafeBooru(event, cleanMsgLowerParams);
-            }
-            else if (cleanMsgLower[1] === 'nsfwbooru') {
-                handleNotSafeBooru(event, cleanMsgLowerParams);
-            }
-            else if (cleanMsgLower[1] === 'jadwal') {
+                break;
+            case 'sfwbooru':
+                handleSafeBooru(event, cleanMsgLowerParams);
+                break;
+            case 'jadwal':
                 handleJadwalKuliah(event, cleanMsgLowerParams, pool);
-            }
-            else if (cleanMsgLower[1] === 'tugas-add') {
+                break;
+            case 'tugas-add':
                 let cleanMgsParams = pushJoinArray(cleanMsg);
                 handleAddTugas(event, cleanMgsParams, pool);
-            }
-            else if (cleanMsgLower[1] === 'tugas-list') {
+                break;
+            case 'tugas-list':
                 handleListTugas(event, cleanMsgLowerParams, pool);
-            }
-            else if (cleanMsgLower[1] === 'tugas-delete') {
+                break;
+            case 'tugas-delete':
                 handleDeleteTugas(event, cleanMsgLowerParams, pool);
-            }
-            else if (cleanMsgLower[1] === '-h') {
+                break;
+            case '-h':
                 handleHelpReact(event, cleanMsgLower);
-            }
-            else if (cleanMsgLower[1] === 'emojify') {
+                break;
+            case 'emojify':
                 handleEmojify(event, cleanMsgLowerParams);
-            }
-            else if (cleanMsgLower[1] === 'nhentai-info') {
+                break;
+            case 'nhentai-info':
                 await handleNhentaiInfo(event, cleanMsgLowerParams);
-            }
-            else if (cleanMsgLower[1] === 'mal-search') {
+                break;
+            case 'mal-search':
                 await malSearch(event, cleanMsgLowerParams);
-            }
-            else if (cleanMsgLower.length === 1) {
+                break;
+            case undefined:
                 handleHelp(event);
-            }
-            else {
+                break;
+            default:
                 event.channel.send('What do you mean?');
-            }
-        } else if ((/.*t(m){2,}k.*/gi).test(event.content.replace(/\s/g, ''))) {
-            event.channel.send('Jangan ada diskriminasi diantara kita');
+                break;
         }
-    } catch (e) {
-        console.log(e);
+    } else if ((/.*t(m){2,}k.*/gi).test(event.content.replace(/\s/g, ''))) {
+        event.channel.send('Jangan ada diskriminasi diantara kita');
     }
 });
 
