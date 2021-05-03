@@ -40,8 +40,8 @@ client.on('message', async event => {
             case 'sfwbooru':
                 handleSafeBooru(event, cleanMsgLowerParams);
                 break;
-            case 'sfwbooru':
-                handleSafeBooru(event, cleanMsgLowerParams);
+            case 'nsfwbooru':
+                handleNotSafeBooru(event, cleanMsgLowerParams);
                 break;
             case 'jadwal':
                 handleJadwalKuliah(event, cleanMsgLowerParams, pool);
