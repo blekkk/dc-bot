@@ -15,9 +15,11 @@ client.on('ready', () => {
 client.on('message', async event => {
     let commandParams = event.content.toLowerCase().split(' ');
     let cleanMsg = commandParams.slice(2).join(' ');
-    let ytLink = event.content.split(' ')[3];
+    let ytLink = event.content.split(' ')[2];
 
     if (commandParams[0] === 'b!') {
+        if (commandParams.length === 1)
+            event.channel.send('Add a youtube link with \`play\` command!');
         handleStreamYoutube(event, commandParams, ytLink);
     }
 

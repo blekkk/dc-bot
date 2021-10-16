@@ -13,7 +13,7 @@ module.exports = {
     
                 if (reaction.emoji.name === '✅') {
                     client.reply(
-                        `we currently have 5 functions:\n\n\`sfwbooru\`,\n\`nsfwbooru\`,\n\`nhentai-info\`,\n\`mal-search\`,\nand \`emojify\`\n\ntype \`blek! -h <FUNCTION_NAME>\` for help`
+                        `we currently have 5 functions:\n\n\`sfwbooru\`,\n\`nsfwbooru\`,\n\`nhentai-info\`,\n\`mal-search\`, \`songs\`,\nand \`emojify\`\n\ntype \`blek! -h <FUNCTION_NAME>\` for help`
                     );
                 }
             })
@@ -38,6 +38,8 @@ module.exports = {
             client.reply('the hidden tugas family functions, use it to add, list, and delete your tugas. Here\'s how to use it:\n\nAdd your tugas:\n\`blek! tugas-add "<MATA_KULIAH>" "<DETAIL_TUGAS>" "<DEADLINE_TUGAS>"\`\nList your tugas:\n\`blek! tugas-list\`\nDelete your tugas:\n\`blek! tugas-delete <NOMOR_TUGAS_PADA_LIST>\`');
         } else if (message[2] === 'mal-search') {
             client.reply(`mal-search displays information about the searched anime on MyAnimeList\n\njust type:\n\`blek! mal-search <YOUR_SEARCH_QUERY>\``);
+        } else if (message[2] === 'songs') {
+            client.reply(`blek! now can play music!\n use these commands:\n\`b! play <YOUTUBE_LINK>\` (play/add song)\n\`b! skip\` (skip song)\n\`b! stop\` (stop playing music)`);
         }
     }
 }
