@@ -6,7 +6,10 @@ const queue = new Map();
 const streamYoutube = (guild, song) => {
   const serverQueue = queue.get(guild.id);
   if (!song) {
-    serverQueue.voiceChannel.leave();
+    setTimeout(() => {
+      serverQueue.voiceChannel.leave();
+    }, 10000);
+    clearTimeout();
     queue.delete(guild.id);
     return;
   }
@@ -72,7 +75,7 @@ const playSong = async (event, serverQueue, link) => {
 const skipSong = (event, serverQueue) => {
   if (!event.member.voice.channel)
     return event.channel.send(
-      "You have to be in a voice channel to stop the music!"
+      "You have to be in a voice channel to skip the music!"
     );
   if (!serverQueue)
     return event.channel.send("There is no song that I could skip!");
@@ -92,6 +95,25 @@ const quitSong = (event, serverQueue) => {
   serverQueue.connection.dispatcher.end();
 }
 
+const listSong = (event, serverQueue) => {
+  if (!event.member.voice.channel)
+    return event.channel.send(
+      "You have to be in a voice channel to list the music!"
+    );
+    
+  if (!serverQueue)
+    return event.channel.send("There is no song that I could list!");
+
+  let upcomingList;
+
+  for (let i = 1; i < serverQueue.songs.length; i++) {
+    upcomingList += (`${i}. ${serverQueue.songs[i]}\n`);
+  }
+
+  return event.channel.send(`\`\`\`\nCurrently playing: ${serverQueue.songs[0].title}\nUpcoming:\n${upcomingList}\n\`\`\``)
+  
+}
+
 module.exports = {
   handleStreamYoutube: async (event, message, link) => {
     const serverQueue = queue.get(event.guild.id);
@@ -102,6 +124,8 @@ module.exports = {
       return skipSong(event, serverQueue);
     } else if (message[2] === 'quit') {
       return quitSong(event, serverQueue);
+    } else if (message[2] === 'list') {
+      return listSong(event, serverQueue);
     } else {
       return event.channel.send('Please select a command!');
     }
