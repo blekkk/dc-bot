@@ -1,11 +1,10 @@
 const Discord = require('discord.js');
-const Pool = require('pg').Pool
-const { handleSafeBooru, handleNotSafeBooru } = require('./handlers/handleBooru');
-const { handleNhentaiInfo } = require('./handlers/handleNhentai');
-const { handleEmojify } = require('./handlers/handleEmojify');
-const { handleHelp, handleHelpReact } = require('./handlers//handleHelp');
-const { handleAddTugas, handleListTugas, handleDeleteTugas, handleJadwalKuliah } = require('./handlers/handleKuliahStuff');
-const { malSearch } = require('./handlers/handleMAL');
+const { handleSafeBooru, handleNotSafeBooru } = require('./src/handlers/handleBooru');
+const { handleNhentaiInfo } = require('./src/handlers/handleNhentai');
+const { handleEmojify } = require('./src/handlers/handleEmojify');
+const { handleHelp, handleHelpReact } = require('./src/handlers/handleHelp');
+const { malSearch } = require('./src/handlers/handleMAL');
+const { handleStreamYoutube } = require('./src/handlers/handleStream');
 
 const client = new Discord.Client();
 
@@ -13,60 +12,32 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-const connectionString = process.env.DATABASE_URL;
-
-const pool = new Pool({
-    connectionString,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
-
-const pushJoinArray = (arrayInput, i = 2) => {
-    let arrayResult = [];
-    for (i; i < arrayInput.length; i++) {
-        arrayResult.push(arrayInput[i]);
-    }
-    return arrayResult = arrayResult.join(' ');
-}
-
 client.on('message', async event => {
-    let cleanMsgLower = event.content.toLowerCase().split(' ');
-    let cleanMsg = event.content.split(' ');
-    let cleanMsgLowerParams = pushJoinArray(cleanMsgLower);
+    let commandParams = event.content.split(' ');
+    let cleanMsg = commandParams.slice(2).join(' ');
 
-    if (cleanMsgLower[0] === 'blek!') {
-        switch (cleanMsgLower[1]) {
+    if (commandParams[0].toLowerCase() === 'blek!') {
+        switch (commandParams[1].toLowerCase()) {
             case 'sfwbooru':
-                handleSafeBooru(event, cleanMsgLowerParams);
+                handleSafeBooru(event, cleanMsg);
                 break;
             case 'nsfwbooru':
-                handleNotSafeBooru(event, cleanMsgLowerParams);
-                break;
-            case 'jadwal':
-                handleJadwalKuliah(event, cleanMsgLowerParams, pool);
-                break;
-            case 'tugas-add':
-                let cleanMgsParams = pushJoinArray(cleanMsg);
-                handleAddTugas(event, cleanMgsParams, pool);
-                break;
-            case 'tugas-list':
-                handleListTugas(event, cleanMsgLowerParams, pool);
-                break;
-            case 'tugas-delete':
-                handleDeleteTugas(event, cleanMsgLowerParams, pool);
+                handleNotSafeBooru(event, cleanMsg);
                 break;
             case '-h':
-                handleHelpReact(event, cleanMsgLower);
+                handleHelpReact(event, commandParams);
                 break;
             case 'emojify':
-                handleEmojify(event, cleanMsgLowerParams);
+                handleEmojify(event, cleanMsg);
                 break;
             case 'nhentai-info':
-                await handleNhentaiInfo(event, cleanMsgLowerParams);
+                await handleNhentaiInfo(event, cleanMsg);
                 break;
             case 'mal-search':
-                await malSearch(event, cleanMsgLowerParams);
+                await malSearch(event, cleanMsg);
+                break;
+            case 'voice':
+                handleStreamYoutube(event, commandParams);
                 break;
             case undefined:
                 handleHelp(event);
