@@ -109,7 +109,7 @@ const listSong = (event, serverQueue) => {
   if (!serverQueue)
     return event.channel.send("There is no song that I could list!");
 
-  let upcomingList;
+  let upcomingList = '';
 
   for (let i = 1; i < serverQueue.songs.length; i++) {
     upcomingList += (`${i}. ${serverQueue.songs[i].title}\n`);
