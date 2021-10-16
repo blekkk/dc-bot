@@ -15,7 +15,7 @@ const streamYoutube = (guild, song) => {
   }
 
   serverQueue.connection
-    .play(ytdl(song.url, { filter: 'audioonly', quality: 'lowestaudio' }), streamOptions)
+    .play(ytdl(song.url, { filter: 'audioonly' }), streamOptions)
     .on("finish", () => {
       serverQueue.songs.shift();
       streamYoutube(guild, serverQueue.songs[0]);
@@ -109,13 +109,13 @@ const listSong = (event, serverQueue) => {
   if (!serverQueue)
     return event.channel.send("There is no song that I could list!");
 
-  let upcomingList = '';
+  let upcomingList = [];
 
   for (let i = 1; i < serverQueue.songs.length; i++) {
-    upcomingList += (`${i}. ${serverQueue.songs[i].title}\n`);
+    upcomingList.push(`${i}. ${serverQueue.songs[i].title}\n`);
   }
 
-  return event.channel.send(`\`\`\`\nCurrently playing: ${serverQueue.songs[0].title}\nUpcoming:\n${upcomingList}\n\`\`\``)
+  return event.channel.send(`\`\`\`\nCurrently playing: ${serverQueue.songs[0].title}\nUpcoming:\n${upcomingList.join()}\n\`\`\``)
 
 }
 
