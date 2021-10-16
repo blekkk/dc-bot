@@ -112,7 +112,7 @@ const listSong = (event, serverQueue) => {
   let upcomingList = ``;
 
   for (let i = 1; i < serverQueue.songs.length; i++) {
-    upcomingList += (`${i}. ${serverQueue.songs[i].title}\n`);
+    upcomingList += `${i}. ${serverQueue.songs[i].title}\n`;
   }
 
   return event.channel.send(`\`\`\`\nCurrently playing: ${serverQueue.songs[0].title}\nUpcoming:\n${upcomingList}\n\`\`\``)
