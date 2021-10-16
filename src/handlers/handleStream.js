@@ -1,43 +1,109 @@
 const ytdl = require('ytdl-core');
 
 const streamOptions = { seek: 0, volume: 1 };
-const ytLinks = [];
-let voiceChannel;
+const queue = new Map();
 
-const streamYoutube = (connection, link) => {
-  const stream = ytdl(link, { filter: 'audioonly' });
-  const dispatcher = connection.play(stream, streamOptions);
-  dispatcher.on('finish', end => {
-    if (ytLinks.length === 0)
-      setTimeout(() => {
-        voiceChannel.leave();
-      }, 10000);
-    let ytLink = ytLinks.shift();
-    streamYoutube(connection, ytLink);
-  });
+const streamYoutube = (guild, song) => {
+  const serverQueue = queue.get(guild.id);
+  if (!song) {
+    serverQueue.voiceChannel.leave();
+    queue.delete(guild.id);
+    return;
+  }
+
+  serverQueue.connection
+    .play(ytdl(song.url, { filter: 'audioonly' }), streamOptions)
+    .on("finish", () => {
+      serverQueue.songs.shift();
+      streamYoutube(guild, serverQueue.songs[0]);
+    })
+    .on("error", error => console.error(error));
+  serverQueue.textChannel.send(`Start playing: **${song.title}**`);
 }
 
-const addYtLink = (link) => {
-  ytLinks.push(link);
+const playSong = async (event, serverQueue, link) => {
+  const voiceChannel = event.member.voice.channel;
+  if (!voiceChannel)
+    return event.channel.send(
+      "You need to be in a voice channel to play music!"
+    );
+  const permissions = voiceChannel.permissionsFor(event.client.user);
+  if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
+    return event.channel.send(
+      "I need the permissions to join and speak in your voice channel!"
+    );
+  }
+
+  const songInfo = await ytdl.getInfo(link);
+  const song = {
+    title: songInfo.videoDetails.title,
+    url: songInfo.videoDetails.video_url,
+  };
+
+  if (!serverQueue) {
+    const queueContruct = {
+      textChannel: event.channel,
+      voiceChannel: voiceChannel,
+      connection: null,
+      songs: [],
+      volume: 1,
+      playing: true
+    };
+    
+    queue.set(event.guild.id, queueContruct);
+
+    queueContruct.songs.push(song);
+
+    try {
+      let connection = await voiceChannel.join();
+      queueContruct.connection = connection;
+      streamYoutube(event.guild, queueContruct.songs[0])
+    } catch (error) {
+      console.log(err);
+      queue.delete(event.guild.id);
+      return event.channel.send(err);
+    }
+  } else {
+    serverQueue.songs.push(song);
+    return event.channel.send(`${song.title} has been added to the queue!`);
+  }
+}
+
+const skipSong = (event, serverQueue) => {
+  if (!event.member.voice.channel)
+    return event.channel.send(
+      "You have to be in a voice channel to stop the music!"
+    );
+  if (!serverQueue)
+    return event.channel.send("There is no song that I could skip!");
+  serverQueue.connection.dispatcher.end();
+}
+
+const quitSong = (event, serverQueue) => {
+  if (!event.member.voice.channel)
+    return event.channel.send(
+      "You have to be in a voice channel to stop the music!"
+    );
+    
+  if (!serverQueue)
+    return event.channel.send("There is no song that I could stop!");
+    
+  serverQueue.songs = [];
+  serverQueue.connection.dispatcher.end();
 }
 
 module.exports = {
   handleStreamYoutube: async (event, message, link) => {
-    if (message[2] === 'add' && link != undefined) {
-      addYtLink(link);
-      event.channel.send('Added');
-    }
+    const serverQueue = queue.get(event.guild.id);
 
-    if (message[2] === 'join' && link != undefined) {
-      voiceChannel = event.member.voice.channel;
-      try {
-        let connection = await voiceChannel.join();
-        addYtLink(link);
-        let ytLink = ytLinks.shift();
-        streamYoutube(connection, ytLink);
-      } catch (error) {
-        console.log(error);
-      }
+    if (message[2] === 'play') {
+      return playSong(event, serverQueue, link);
+    } else if (message[2] === 'skip') {
+      return skipSong(event, serverQueue);
+    } else if (message[2] === 'quit') {
+      return quitSong(event, serverQueue);
+    } else {
+      return event.channel.send('Please select a command!');
     }
   }
 }
