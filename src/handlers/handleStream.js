@@ -37,38 +37,43 @@ const playSong = async (event, serverQueue, link) => {
     );
   }
 
-  const songInfo = await ytdl.getInfo(link);
-  const song = {
-    title: songInfo.videoDetails.title,
-    url: songInfo.videoDetails.video_url,
-  };
-
-  if (!serverQueue) {
-    const queueContruct = {
-      textChannel: event.channel,
-      voiceChannel: voiceChannel,
-      connection: null,
-      songs: [],
-      volume: 1,
-      playing: true
+  // this trycatch exist because nodejs is a piece of shit
+  try {
+    const songInfo = await ytdl.getInfo(link);
+    const song = {
+      title: songInfo.videoDetails.title,
+      url: songInfo.videoDetails.video_url,
     };
-    
-    queue.set(event.guild.id, queueContruct);
 
-    queueContruct.songs.push(song);
+    if (!serverQueue) {
+      const queueContruct = {
+        textChannel: event.channel,
+        voiceChannel: voiceChannel,
+        connection: null,
+        songs: [],
+        volume: 1,
+        playing: true
+      };
 
-    try {
-      let connection = await voiceChannel.join();
-      queueContruct.connection = connection;
-      streamYoutube(event.guild, queueContruct.songs[0])
-    } catch (error) {
-      console.log(err);
-      queue.delete(event.guild.id);
-      return event.channel.send(err);
+      queue.set(event.guild.id, queueContruct);
+
+      queueContruct.songs.push(song);
+
+      try {
+        let connection = await voiceChannel.join();
+        queueContruct.connection = connection;
+        streamYoutube(event.guild, queueContruct.songs[0])
+      } catch (error) {
+        console.log(err);
+        queue.delete(event.guild.id);
+        return event.channel.send(err);
+      }
+    } else {
+      serverQueue.songs.push(song);
+      return event.channel.send(`${song.title} has been added to the queue!`);
     }
-  } else {
-    serverQueue.songs.push(song);
-    return event.channel.send(`${song.title} has been added to the queue!`);
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -87,10 +92,10 @@ const quitSong = (event, serverQueue) => {
     return event.channel.send(
       "You have to be in a voice channel to stop the music!"
     );
-    
+
   if (!serverQueue)
     return event.channel.send("There is no song that I could stop!");
-    
+
   serverQueue.songs = [];
   serverQueue.connection.dispatcher.end();
 }
@@ -100,7 +105,7 @@ const listSong = (event, serverQueue) => {
     return event.channel.send(
       "You have to be in a voice channel to list the music!"
     );
-    
+
   if (!serverQueue)
     return event.channel.send("There is no song that I could list!");
 
@@ -111,7 +116,7 @@ const listSong = (event, serverQueue) => {
   }
 
   return event.channel.send(`\`\`\`\nCurrently playing: ${serverQueue.songs[0].title}\nUpcoming:\n${upcomingList}\n\`\`\``)
-  
+
 }
 
 module.exports = {
