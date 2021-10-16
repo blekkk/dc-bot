@@ -17,6 +17,10 @@ client.on('message', async event => {
     let cleanMsg = commandParams.slice(2).join(' ');
     let ytLink = event.content.split(' ')[3];
 
+    if (commandParams[0] === 'b!') {
+        handleStreamYoutube(event, commandParams, ytLink);
+    }
+
     if (commandParams[0] === 'blek!') {
         switch (commandParams[1]) {
             case 'sfwbooru':
@@ -36,9 +40,6 @@ client.on('message', async event => {
                 break;
             case 'mal-search':
                 await malSearch(event, cleanMsg);
-                break;
-            case 'voice':
-                handleStreamYoutube(event, commandParams, ytLink);
                 break;
             case undefined:
                 handleHelp(event);

@@ -15,7 +15,7 @@ const streamYoutube = (guild, song) => {
   }
 
   serverQueue.connection
-    .play(ytdl(song.url, { filter: 'audioonly' }), streamOptions)
+    .play(ytdl(song.url, { filter: 'audioonly', quality: 'lowestaudio' }), streamOptions)
     .on("finish", () => {
       serverQueue.songs.shift();
       streamYoutube(guild, serverQueue.songs[0]);
@@ -107,7 +107,7 @@ const listSong = (event, serverQueue) => {
   let upcomingList;
 
   for (let i = 1; i < serverQueue.songs.length; i++) {
-    upcomingList += (`${i}. ${serverQueue.songs[i]}\n`);
+    upcomingList += (`${i}. ${serverQueue.songs[i].title}\n`);
   }
 
   return event.channel.send(`\`\`\`\nCurrently playing: ${serverQueue.songs[0].title}\nUpcoming:\n${upcomingList}\n\`\`\``)
@@ -118,13 +118,13 @@ module.exports = {
   handleStreamYoutube: async (event, message, link) => {
     const serverQueue = queue.get(event.guild.id);
 
-    if (message[2] === 'play') {
+    if (message[1] === 'play') {
       return playSong(event, serverQueue, link);
-    } else if (message[2] === 'skip') {
+    } else if (message[1] === 'skip') {
       return skipSong(event, serverQueue);
-    } else if (message[2] === 'quit') {
+    } else if (message[1] === 'quit') {
       return quitSong(event, serverQueue);
-    } else if (message[2] === 'list') {
+    } else if (message[1] === 'list') {
       return listSong(event, serverQueue);
     } else {
       return event.channel.send('Please select a command!');
