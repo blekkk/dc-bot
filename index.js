@@ -1,3 +1,4 @@
+require('dotenv').config()
 const Discord = require('discord.js');
 const { handleSafeBooru, handleNotSafeBooru } = require('./src/handlers/handleBooru');
 const { handleNhentaiInfo } = require('./src/handlers/handleNhentai');
@@ -13,11 +14,12 @@ client.on('ready', () => {
 });
 
 client.on('message', async event => {
-    let commandParams = event.content.split(' ');
+    let commandParams = event.content.toLowerCase().split(' ');
     let cleanMsg = commandParams.slice(2).join(' ');
+    let ytLink = event.content.split(' ')[3];
 
-    if (commandParams[0].toLowerCase() === 'blek!') {
-        switch (commandParams[1].toLowerCase()) {
+    if (commandParams[0] === 'blek!') {
+        switch (commandParams[1]) {
             case 'sfwbooru':
                 handleSafeBooru(event, cleanMsg);
                 break;
@@ -37,7 +39,7 @@ client.on('message', async event => {
                 await malSearch(event, cleanMsg);
                 break;
             case 'voice':
-                handleStreamYoutube(event, commandParams);
+                handleStreamYoutube(event, commandParams, ytLink);
                 break;
             case undefined:
                 handleHelp(event);

@@ -22,17 +22,17 @@ const addYtLink = (link) => {
 }
 
 module.exports = {
-  handleStreamYoutube: async (event, message) => {
-    if (message[2].toLowerCase() === 'add' && message[3] != undefined) {
-      addYtLink(message[3]);
+  handleStreamYoutube: async (event, message, link) => {
+    if (message[2] === 'add' && link != undefined) {
+      addYtLink(link);
       event.channel.send('Added');
     }
 
-    if (message[2].toLowerCase() === 'join' && message[3] != undefined) {
+    if (message[2] === 'join' && link != undefined) {
       voiceChannel = event.member.voice.channel;
       try {
         let connection = await voiceChannel.join();
-        addYtLink(message[3]);
+        addYtLink(link);
         let ytLink = ytLinks.shift();
         streamYoutube(connection, ytLink);
       } catch (error) {
