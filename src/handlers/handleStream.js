@@ -39,7 +39,7 @@ const playSong = async (event, serverQueue, link) => {
 
   // this trycatch exist because nodejs is a piece of shit
   try {
-    const songInfo = await ytdl.getInfo(link);
+    const songInfo = await ytdl.getBasicInfo(link);
     const song = {
       title: songInfo.videoDetails.title,
       url: songInfo.videoDetails.video_url,
