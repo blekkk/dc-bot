@@ -84,7 +84,7 @@ const skipSong = (event, serverQueue) => {
     );
   if (!serverQueue)
     return event.channel.send("There is no song that I could skip!");
-  serverQueue.connection.dispatcher.end();
+  serverQueue.connection.dispatcher.end().catch((e) => { console.log(e) });
 }
 
 const quitSong = (event, serverQueue) => {
@@ -97,7 +97,7 @@ const quitSong = (event, serverQueue) => {
     return event.channel.send("There is no song that I could stop!");
 
   serverQueue.songs = [];
-  serverQueue.connection.dispatcher.end();
+  serverQueue.connection.dispatcher.end().catch((e) => { console.log(e) });
 }
 
 const listSong = (event, serverQueue) => {
