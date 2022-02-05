@@ -1,3 +1,4 @@
+require('dotenv').config();
 const Discord = require('discord.js');
 const { handleSafeBooru, handleNotSafeBooru } = require('./src/handlers/handleBooru');
 const { handleNhentaiInfo } = require('./src/handlers/handleNhentai');
