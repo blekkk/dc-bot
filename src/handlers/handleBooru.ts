@@ -1,7 +1,9 @@
+import { Message } from 'discord.js';
 const Danbooru = require('danbooru');
+
 const booru = new Danbooru();
 
-const handleBooru = async (client, booruParams, rating) => {
+const handleBooru = async (client: Message, booruParams: String, rating: String) => {
     if (booruParams.split(' ').length >= 3) {
         client.channel.send('Tags can only go up to 2 tags!');
         return;
@@ -20,11 +22,11 @@ const handleBooru = async (client, booruParams, rating) => {
 }
 
 module.exports = {
-    handleSafeBooru: (client, booruParams) => {
+    handleSafeBooru: (client: Message, booruParams: String) => {
         handleBooru(client, booruParams, 'safe')
     },
 
-    handleNotSafeBooru: (client, booruParams) => {
+    handleNotSafeBooru: (client: Message, booruParams: String) => {
         handleBooru(client, booruParams, 'explicit')
     }
 }

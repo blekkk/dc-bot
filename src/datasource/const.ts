@@ -1,4 +1,4 @@
-exports.helpData = {
+export default {
   sfwbooru: 'sfwbooru will give you a random SFW picture from danbooru based on your given tag\n\nExample:\n\`blek! sfwbooru genshin_impact\`\n\`blek! sfwbooru hololive order:rank\`\n\nNote: sfwbooru currently only accepts up to 2 given tags',
   nsfbooru: 'nsfwbooru will give you a random NSFW picture from danbooru based on your given tag\n\nExample:\n\`blek! nsfwbooru genshin_impact\`\n\`blek! nsfwbooru hololive order:rank\`\n\nNote: nsfwbooru currently only accepts up to 2 given tags',
   emojify: 'emojify your messages!\n\nJust type \`blek emojify <YOUR_MESSAGES>\`',

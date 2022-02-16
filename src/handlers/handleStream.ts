@@ -6,10 +6,10 @@ const queue = new Map();
 const streamYoutube = (guild, song) => {
   const serverQueue = queue.get(guild.id);
   if (!song) {
-    setTimeout(() => {
+    const id = setTimeout(() => {
       serverQueue.voiceChannel.leave();
     }, 10000);
-    clearTimeout();
+    clearTimeout(id);
     queue.delete(guild.id);
     return;
   }
@@ -39,8 +39,13 @@ const playSong = async (event, serverQueue, link) => {
 
   // this trycatch exist because nodejs is a piece of shit
   try {
+    interface Song {
+      title: String,
+      url: String
+    };
+    
     const songInfo = await ytdl.getBasicInfo(link);
-    const song = {
+    const song: Song = {
       title: songInfo.videoDetails.title,
       url: songInfo.videoDetails.video_url,
     };
@@ -50,7 +55,7 @@ const playSong = async (event, serverQueue, link) => {
         textChannel: event.channel,
         voiceChannel: voiceChannel,
         connection: null,
-        songs: [],
+        songs: [] as Array<Song>,
         volume: 1,
         playing: true
       };
@@ -64,9 +69,9 @@ const playSong = async (event, serverQueue, link) => {
         queueContruct.connection = connection;
         streamYoutube(event.guild, queueContruct.songs[0])
       } catch (error) {
-        console.log(err);
+        console.log(error);
         queue.delete(event.guild.id);
-        return event.channel.send(err);
+        return event.channel.send(error);
       }
     } else {
       serverQueue.songs.push(song);
