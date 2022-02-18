@@ -1,10 +1,11 @@
+require('dotenv').config();
 import { Client, Message } from 'discord.js';
-const { handleSafeBooru, handleNotSafeBooru } = require('./handlers/handleBooru');
-const { handleNhentaiInfo } = require('./handlers/handleNhentai');
-const { handleEmojify } = require('./handlers/handleEmojify');
-const { handleHelp, handleHelpReact } = require('./handlers/handleHelp');
-const { malSearch } = require('./handlers/handleMAL');
-const { handleStreamYoutube } = require('./handlers/handleStream');
+import { handleSafeBooru, handleNotSafeBooru } from './handlers/handleBooru';
+import { handleNhentaiInfo } from './handlers/handleNhentai'
+import { handleEmojify } from './handlers/handleEmojify'
+import { handleHelp, handleHelpReact } from './handlers/handleHelp';
+import { malSearch } from './handlers/handleMAL';
+import { handleStreamYoutube } from './handlers/handleStream';
 
 const client = new Client();
 
@@ -26,10 +27,10 @@ client.on('message', async (message: Message) => {
     if (commandParams[0] === 'blek!') {
         switch (commandParams[1]) {
             case 'sfwbooru':
-                handleSafeBooru(message, cleanMsg);
+                await handleSafeBooru(message, cleanMsg);
                 break;
             case 'nsfwbooru':
-                handleNotSafeBooru(message, cleanMsg);
+                await handleNotSafeBooru(message, cleanMsg);
                 break;
             case '-h':
                 handleHelpReact(message, commandParams);
@@ -44,7 +45,7 @@ client.on('message', async (message: Message) => {
                 await malSearch(message, cleanMsg);
                 break;
             case undefined:
-                handleHelp(message);
+                await handleHelp(message);
                 break;
             default:
                 message.channel.send('What do you mean?');

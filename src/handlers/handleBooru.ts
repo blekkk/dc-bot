@@ -3,7 +3,7 @@ const Danbooru = require('danbooru');
 
 const booru = new Danbooru();
 
-const handleBooru = async (client: Message, booruParams: String, rating: String) => {
+const handleBooru = async (client: Message, booruParams: string, rating: string) => {
     if (booruParams.split(' ').length >= 3) {
         client.channel.send('Tags can only go up to 2 tags!');
         return;
@@ -21,12 +21,12 @@ const handleBooru = async (client: Message, booruParams: String, rating: String)
     client.channel.send(imgPost);
 }
 
-module.exports = {
-    handleSafeBooru: (client: Message, booruParams: String) => {
-        handleBooru(client, booruParams, 'safe')
-    },
+const handleSafeBooru = async (client: Message, booruParams: string) => {
+    await handleBooru(client, booruParams, 'safe');
+};
 
-    handleNotSafeBooru: (client: Message, booruParams: String) => {
-        handleBooru(client, booruParams, 'explicit')
-    }
+const handleNotSafeBooru = async (client: Message, booruParams: string) => {
+    await handleBooru(client, booruParams, 'explicit')
 }
+
+export { handleSafeBooru, handleNotSafeBooru };
