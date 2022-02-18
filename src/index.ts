@@ -1,4 +1,3 @@
-require('dotenv').config();
 import { Client, Message } from 'discord.js';
 import { handleSafeBooru, handleNotSafeBooru } from './handlers/handleBooru';
 import { handleNhentaiInfo } from './handlers/handleNhentai'
