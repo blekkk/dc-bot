@@ -5,6 +5,7 @@ import { handleEmojify } from './handlers/handleEmojify'
 import { handleHelp, handleHelpReact } from './handlers/handleHelp';
 import { malSearch } from './handlers/handleMAL';
 import { handleStreamYoutube } from './handlers/handleStream';
+import { discriminate } from './handlers/discriminate';
 
 const client = new Client();
 
@@ -50,8 +51,8 @@ client.on('message', async (message: Message) => {
                 message.channel.send('What do you mean?');
                 break;
         }
-    } else if ((/.*t(m){2,}k.*/gi).test(message.content.replace(/\s/g, ''))) {
-        message.channel.send('Jangan ada diskriminasi diantara kita');
+    } else {
+        discriminate(message, message.content.replace(/\s/g, ''));
     }
 });
 
