@@ -5,7 +5,7 @@ import { handleEmojify } from './handlers/handleEmojify'
 import { handleHelp, handleHelpReact } from './handlers/handleHelp';
 import { malSearch } from './handlers/handleMAL';
 import { handleStreamYoutube } from './handlers/handleStream';
-import { discriminate } from './handlers/discriminate';
+import { discriminate } from './handlers/handleDiscriminate';
 
 const client = new Client();
 

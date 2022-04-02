@@ -27,7 +27,7 @@ const discriRegexes: discriRegexes = [
 ];
 
 const discriminate = (client: Message, message: string) => {
-  discriRegexes.map((item) => {
+  discriRegexes.forEach((item) => {
     if((item.regex).test(message)) {
       client.channel.send(item.message);
     }
