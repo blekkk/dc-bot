@@ -13,15 +13,15 @@ const discriRegexes: discriRegexes = [
     message: 'Jangan ada diskriminasi diantara kita'
   },
   {
-    regex: /.*<@!590295443641073800>.*/gi,
+    regex: /.*<@(!){0,1}590295443641073800>.*/gi,
     message: 'Kay lagi ngehent?',
   },
   {
-    regex: /.*<@!401533788833972224>.*/gi,
+    regex: /.*<@(!){0,1}401533788833972224>.*/gi,
     message: 'Akbar goblok',
   },
   {
-    regex: /.*<@!386674745426444300>.*/gi,
+    regex: /.*<@(!){0,1}386674745426444300>.*/gi,
     message: 'Azhar sus',
   }
 ];
