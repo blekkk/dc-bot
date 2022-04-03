@@ -6,6 +6,7 @@ import { handleHelp, handleHelpReact } from './handlers/handleHelp';
 import { malSearch } from './handlers/handleMAL';
 import { handleStreamYoutube } from './handlers/handleStream';
 import { discriminate } from './handlers/handleDiscriminate';
+import { handleASCIIEmoji } from './handlers/handleASCIIEmoji';
 
 const client = new Client();
 
@@ -43,6 +44,9 @@ client.on('message', async (message: Message) => {
                 break;
             case 'mal-search':
                 await malSearch(message, cleanMsg);
+                break;
+            case 'ascii':
+                handleASCIIEmoji(message, cleanMsg);
                 break;
             case undefined:
                 await handleHelp(message);
